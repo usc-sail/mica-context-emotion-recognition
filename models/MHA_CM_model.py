@@ -20,6 +20,7 @@ def _get_activation_fn(activation):
     if activation == "glu":
         return F.glu
     raise RuntimeError(F"activation should be relu/gelu, not {activation}.")
+
 class CrossModalLayer(nn.Module):
 
     def __init__(self, dim_model=512, 
@@ -61,10 +62,6 @@ class CrossModalLayer(nn.Module):
 
         self.activation = _get_activation_fn(activation) #activation function
 
-    # def with_pos_embed(self, tensor, pos):
-    #     if(pos is None):
-
-    #     return tensor if pos is None else tensor + pos
 
     def forward (self, query, key, value, src_key_mask):
 
@@ -113,7 +110,6 @@ class CrossModalEncoder(nn.Module):
         self.dim_feedforward = dim_feedforward
         self.activation = activation
         self.num_layers=num_layers
-        print(self.batch_first)
 
         self.layer = CrossModalLayer(dim_model=self.dim_model, 
                                     dim_feedforward=self.dim_feedforward, 
@@ -710,7 +706,6 @@ class caption_face_dual_MHA_model_scene_late_fusion_AVD_Discrete(nn.Module):
         
         return logits_discrete
         
-        
 
 
 
@@ -718,36 +713,6 @@ class caption_face_dual_MHA_model_scene_late_fusion_AVD_Discrete(nn.Module):
 
 
 
-
-
-
-
-
-
-
-# pretrained_model=models.resnet34(pretrained=True)
-# person_model=torch.nn.Sequential(*list(pretrained_model.children())[:-1])
-
-# model_dict={'dim_model':512,
-#             'dim_feedforward':2048,
-#             'num_heads':8,
-#             'drop_prob':0.1,
-#             'add_bias':True,
-#             'activation':'relu',
-#             'batch_first':True,
-#             'num_layers':2,
-#             'scene_feat_dim':768,
-#             'person_model_option':person_model,
-#             'person_max_len':49,
-#             'text_max_len':512,
-#             'text_model':'bert-base-uncased',
-#             'num_discrete_classes':26,
-#             'num_cont_classes':3,
-#             'add_pos':True
-#             }
-
-# model=caption_person_MHA_model_scene_late_fusion_AVD_Discrete(**model_dict)
-# print(model)
 
 
 
